@@ -14,7 +14,6 @@
   "dependencies": {
     "@nativescript/theme": "~2.3.0",
     "nativescript-vue": "~2.4.0",
-    "nativescript-windowed-modal": "^6.2.1",
     "tns-core-modules": "~6.5.0"
   },
   "devDependencies": {
