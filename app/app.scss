@@ -20,12 +20,25 @@
   font-weight: 400;
 }
 
-.page {
-  color: #fff;
-  background: linear-gradient(to right top, #142237, #211510);
-}
-
 .fa {
   font-family: FontAwesome, fontawesome-webfont;
   color: #fff;
+}
+
+.page {
+  color: #fff;
+  background: linear-gradient(to right top, #142237, #211510);
+  align-items: center;
+  flex-direction: column;
+}
+
+.logo {
+  margin-top: 20px;
+}
+
+.form {
+  margin-left: 30;
+  margin-right: 30;
+  flex-grow: 2;
+  vertical-align: middle;
 }
