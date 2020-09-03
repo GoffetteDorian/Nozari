@@ -4,17 +4,48 @@
       <StackLayout class="form">
         <Image class="logo" src="~/assets/logo.png" />
         <StackLayout class="input-field">
-          <TextField class="input" />
+          <TextField
+            class="input"
+            hint="Enter your email..."
+            keyboardType="email"
+            autocorrect="false"
+            autocapitalizationType="none"
+          />
         </StackLayout>
 
         <StackLayout class="input-field">
-          <TextField class="input" />
+          <TextField
+            class="input"
+            hint="Enter your password..."
+            secure="true"
+          />
         </StackLayout>
 
-        <Button text="Log In" class="btn btn-primary" />
+        <StackLayout class="input-field">
+          <TextField
+            class="input"
+            v-if="!isLoggingIn"
+            hint="Confirm your password..."
+            secure="true"
+          />
+        </StackLayout>
+
+        <Button
+          class="btn btn-primary"
+          :text="isLoggingIn ? 'LOG IN' : 'SIGN UP'"
+          @tap="submitForm()"
+        />
       </StackLayout>
 
-      <Label text="Don't have an account?" />
+      <Label v-if="isLoggingIn" text="Forgot your password ?" />
+
+      <Label @tap="toggleForm()">
+        <FormattedString>
+          <Span
+            :text="isLoggingIn ? 'Don´t have an account ?' : 'Back to Login'"
+          />
+        </FormattedString>
+      </Label>
     </FlexboxLayout>
   </Page>
 </template>
@@ -22,7 +53,22 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      isLoggingIn: true
+    };
+  },
+  methods: {
+    toggleForm() {
+      this.isLoggingIn = !this.isLoggingIn;
+    },
+    submitForm() {
+      console.log("hey i pressed submit");
+      if (this.isLoggingIn) {
+        // Perform the sign in
+      } else {
+        // Perform the sign up
+      }
+    }
   }
 };
 </script>
