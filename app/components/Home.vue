@@ -6,6 +6,7 @@
         <StackLayout class="input-field">
           <TextField
             class="input"
+            v-model="user.email"
             hint="Enter your email..."
             keyboardType="email"
             autocorrect="false"
@@ -16,6 +17,7 @@
         <StackLayout class="input-field">
           <TextField
             class="input"
+            v-model="user.password"
             hint="Enter your password..."
             secure="true"
           />
@@ -24,6 +26,7 @@
         <StackLayout class="input-field">
           <TextField
             class="input"
+            v-model="user.confirmPassword"
             v-if="!isLoggingIn"
             hint="Confirm your password..."
             secure="true"
@@ -37,7 +40,11 @@
         />
       </StackLayout>
 
-      <Label v-if="isLoggingIn" text="Forgot your password ?" />
+      <Label
+        v-if="isLoggingIn"
+        text="Forgot your password ?"
+        @tap="forgotPassword()"
+      />
 
       <Label @tap="toggleForm()">
         <FormattedString>
@@ -51,10 +58,18 @@
 </template>
 
 <script>
+import { alert, prompt } from "tns-core-modules/ui/dialogs";
+import { User } from "./shared/user.model";
+
 export default {
   data() {
     return {
-      isLoggingIn: true
+      isLoggingIn: true,
+      user: {
+        email: "",
+        password: "",
+        confirmPassword: ""
+      }
     };
   },
   methods: {
@@ -62,12 +77,39 @@ export default {
       this.isLoggingIn = !this.isLoggingIn;
     },
     submitForm() {
-      console.log("hey i pressed submit");
+      console.log(this.user.email);
+      if (!this.user.email || !this.user.password) {
+        alert({
+          title: "Nozari",
+          message: "Please provide both an email adress and password.",
+          okButtonText: "Ok"
+        });
+      }
       if (this.isLoggingIn) {
         // Perform the sign in
       } else {
         // Perform the sign up
       }
+    },
+    forgotPassword() {
+      prompt({
+        title: "Forgot password",
+        message:
+          "Enter the email adres you used to register for Nozari to reset your password.",
+        defaultText: "",
+        okButtonText: "Send",
+        cancelButtonText: "Cancel"
+      }).then(data => {
+        // CALL TO BACKEND TO RESET PASSWORD
+        if (data.result) {
+          alert({
+            title: "Nozari",
+            message:
+              "Your password was succesfully reset. Please check your email for instructions on choosing a new password.",
+            okButtonText: "Ok"
+          });
+        }
+      });
     }
   }
 };
