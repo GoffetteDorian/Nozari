@@ -60,22 +60,20 @@
 <script>
 import { alert, prompt } from "tns-core-modules/ui/dialogs";
 import { User } from "./shared/user.model";
+import { UserService } from "./shared/user.service";
 
 export default {
   data() {
     return {
       isLoggingIn: true,
-      user: {
-        email: "",
-        password: "",
-        confirmPassword: ""
-      }
+      user: new User()
     };
   },
   methods: {
     toggleForm() {
       this.isLoggingIn = !this.isLoggingIn;
     },
+
     submitForm() {
       console.log(this.user.email);
       if (!this.user.email || !this.user.password) {
@@ -86,29 +84,72 @@ export default {
         });
       }
       if (this.isLoggingIn) {
-        // Perform the sign in
+        this.login();
       } else {
-        // Perform the sign up
+        this.register();
       }
     },
+
+    login() {
+      this.userService
+        .login(this.user)
+        .then(() => {
+          this.router.navigate(["/home"]);
+        })
+        .catch(() => {
+          this.alert("Unfortunately we could not find your account.");
+        });
+    },
+
+    register() {
+      if (this.user.password !== this.user.confirmPassword) {
+        this.alert("Your passwords do not match.");
+        return;
+      }
+
+      this.userService
+        .register(this.user)
+        .then(() => {
+          this.alert("Your account was succesfully created.");
+          this.isLoggingIn = true;
+        })
+        .catch(() => {
+          this.alert("Unfortunately we were unable to create your account.");
+        });
+    },
+
     forgotPassword() {
       prompt({
         title: "Forgot password",
         message:
-          "Enter the email adres you used to register for Nozari to reset your password.",
+          "Enter the email adress you used to register for Nozari to reset your password.",
         defaultText: "",
         okButtonText: "Send",
         cancelButtonText: "Cancel"
       }).then(data => {
         // CALL TO BACKEND TO RESET PASSWORD
         if (data.result) {
-          alert({
-            title: "Nozari",
-            message:
-              "Your password was succesfully reset. Please check your email for instructions on choosing a new password.",
-            okButtonText: "Ok"
-          });
+          this.userService
+            .resetPassword(data.text.trim())
+            .then(() => {
+              this.alert(
+                "Your password was succesfully reset. Please check your email for instructions on choosing a new password."
+              );
+            })
+            .catch(() => {
+              this.alert(
+                "Unfortunately, an error occurred resetting your password."
+              );
+            });
         }
+      });
+    },
+
+    alert(message) {
+      return alert({
+        title: "Nozari",
+        message,
+        okButtonText: "Ok"
       });
     }
   }
