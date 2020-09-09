@@ -1,5 +1,5 @@
-export const User = () => {
+export class User {
   email = "";
   password = "";
   confirmPassword = "";
-};
+}
