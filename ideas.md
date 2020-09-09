@@ -1,19 +1,30 @@
 # IDEAS
 
-- [ ] Signup - Login
+- [ ] Signup - Login Page
 
-- [ ] Profile page
+- [ ] Profile Page
 
-  - [ ] Setup roles (GM -> trials)
+  - [ ] Setup roles (GM -> trials) and give them power
   - [ ] Link armory to character
   - [ ] Acquire character details
 
-- [ ] Calendar
+- [ ] Events page
+
+  - [ ] List all events
+  - [ ] If you have the rights, add an event
+
+* [ ] Armory Page
+
+  - [ ] Search character in wow armory api
+  - [ ] Fetch data from character
+  - [ ] Link data to profile
+
+* [ ] Calendar Page
 
   - [ ] Description of the event
   - [ ] Tag to events
 
-- [ ] Notifications
+* [ ] Notifications
   - [ ] New event created by higher roles
   - [ ] Event about to begin (1 - 2h before then 15min)
 
